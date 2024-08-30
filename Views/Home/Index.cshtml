@@ -1,11 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Welcome!";
 }
+<!-- 
+    References: 
+    https://youtu.be/birdT3eLUH8?si=O-PqwFKzAqqONq91
+    https://youtu.be/-HYRyRcp-GM?si=QAboVC639DcMhc5x
+    https://youtu.be/qxRQ233JgCA?si=Y_xd0WpdV_6krgqn
+-->
 
-
+<!--Creating the body for the entire webpage-->
 <body style=" background: linear-gradient(#3300ff,#bd00fc ); text-align:center;">
     <h1>Welcome to Mr C's Retailing!</h1>
     <div style="border: 2px solid grey; padding: 20px; margin: auto; display: inline-block; text-align: center; background-color:cornsilk; border-radius: 15px">
+<!--Code for the uploading of images-->
         <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
     <p style="">Upload an image into the storage account: </p>
 <form asp-action="UploadImage" method="post" enctype="multipart/form-data">
@@ -15,6 +22,7 @@
 </div>
 <br />
 <br />
+<!--Code for the addition of a customer profile-->
         <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
 <p>Add a customer profile to the storage account: </p>
 <form asp-action="AddCustomerProfile" method="post">
@@ -27,6 +35,7 @@
     </div>
 <br />
 <br />
+<!--Code for the processing of orders-->
         <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
 <p>Process an order to the storage account: </p>
 <form asp-action="ProcessOrder" method="post">
@@ -36,6 +45,7 @@
 </div>
 <br />
 <br />
+<!--Code for the uploading of contracts-->
         <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
 <p>Upload a contract to the storage account: </p>
 <form asp-action="UploadContract" method="post" enctype="multipart/form-data">

@@ -48,8 +48,8 @@
 <!--Code for the uploading of contracts-->
         <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
 <p>Upload a contract to the storage account: </p>
-<form asp-action="UploadContract" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" /><br />
+            <form asp-action="UploadFileToAzure" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" /><br />
         <button type="submit" style="background-color:aqua">Upload Contract</button>
 </form>
 </div>

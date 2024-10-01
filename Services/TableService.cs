@@ -9,8 +9,7 @@ namespace ST10320806_Part1.Services
 
         public TableService(IConfiguration configuration)
         {
-            var connectionString = configuration["AzureStorage:ConnectionString"];
-            var serviceClient = new TableServiceClient(connectionString);
+            var serviceClient = new TableServiceClient(configuration["AzureStorage:ConnectionString"]);
             _tableClient = serviceClient.GetTableClient("CustomerProfiles");
             _tableClient.CreateIfNotExists();
         }

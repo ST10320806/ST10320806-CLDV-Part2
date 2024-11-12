@@ -16,6 +16,7 @@ namespace ST10320806_Part1.Services
             _logger = logger;
         }
 
+        // Code for inserting data into the BlobTable
         public async Task<bool> InsertBlobAsync(byte[] blobImage)
         {
             const string query = @"INSERT INTO BlobTable (BlobImage) VALUES (@BlobImage)";

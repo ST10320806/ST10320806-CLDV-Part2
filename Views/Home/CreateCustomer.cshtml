@@ -1,7 +1,8 @@
 ﻿@model ST10320806_Part1.Models.CustomerProfile
 
 <h2>Create Customer</h2>
-
+<body style="text-align: center; background: linear-gradient(#3300ff, #bd00fc)">
+    <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
 <form asp-action="CreateCustomer" method="post">
     <div>
         <label asp-for="FirstName"></label>
@@ -23,9 +24,11 @@
         <input asp-for="PhoneNumber" />
         <span asp-validation-for="PhoneNumber"></span>
     </div>
-    <button type="submit">Save</button>
+    <button type="submit" style="background-color: aqua">Save</button>
 </form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+    </div>
+</body>

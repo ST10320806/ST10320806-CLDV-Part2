@@ -16,7 +16,7 @@ namespace ST10320806_Part1.Services
             _logger = logger;
         }
 
-        // Method to insert an order
+        // Code for inserting data into OrderTable
         public async Task InsertOrderAsync(OrderProfile order)
         {
             const string query = @"

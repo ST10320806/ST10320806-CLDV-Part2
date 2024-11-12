@@ -3,7 +3,7 @@ using ST10320806_Part1.Models;
 using ST10320806_Part1.Services;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
+//Claude Ai used to correct all errors
 namespace ST10320806_Part1.Controllers
 {
     public class HomeController : Controller
@@ -13,7 +13,7 @@ namespace ST10320806_Part1.Controllers
         private readonly IConfiguration _configuration;
         private readonly CustomerService _customerService; // Inject CustomerService
         private readonly BlobService _blobService; // Inject BlobService
-        private readonly OrderService _orderService;
+        private readonly OrderService _orderService; //Inject OrderService
 
         public HomeController(IHttpClientFactory httpClientFactory, ILogger<HomeController> logger, IConfiguration configuration, CustomerService customerService, BlobService blobService, OrderService orderService)
         {
@@ -30,7 +30,8 @@ namespace ST10320806_Part1.Controllers
         {
             return View();
         }
-
+//------------------------------------------------------------------------------------------------//
+//Code for the creation of a customer, calls CustomerService service
         public IActionResult CreateCustomer()
         {
             return View(new CustomerProfile());
@@ -56,7 +57,8 @@ namespace ST10320806_Part1.Controllers
 
             return View(profile);
         }
-
+//------------------------------------------------------------------------------------------------//
+// Code for uploading to the Blob table, calls BlobService
         public IActionResult UploadBlob()
         {
             return View();
@@ -89,7 +91,8 @@ namespace ST10320806_Part1.Controllers
 
             return View();
         }
-
+//------------------------------------------------------------------------------------------------//
+//Code for creating an order, calls OrderService
         public IActionResult CreateOrder()
         {
             return View(new OrderProfile());

@@ -1,57 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Welcome!";
+    ViewData["Title"] = "Home";
 }
-<!-- 
-    References: 
-    https://youtu.be/birdT3eLUH8?si=O-PqwFKzAqqONq91
-    https://youtu.be/-HYRyRcp-GM?si=QAboVC639DcMhc5x
-    https://youtu.be/qxRQ233JgCA?si=Y_xd0WpdV_6krgqn
--->
 
-<!--Creating the body for the entire webpage-->
-<body style=" background: linear-gradient(#3300ff,#bd00fc ); text-align:center;">
-    <h1>Welcome to Mr C's Retailing!</h1>
-    <div style="border: 2px solid grey; padding: 20px; margin: auto; display: inline-block; text-align: center; background-color:cornsilk; border-radius: 15px">
-<!--Code for the uploading of images-->
-        <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
-    <p style="">Upload an image into the storage account: </p>
-<form asp-action="UploadImage" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" /><br />
-        <button type="submit" style="background-color:aqua">Upload Image</button>
-</form>
+<h1>Welcome to the Application!</h1>
+
+<div>
+    <h2>Choose an Action</h2>
+
+    <!-- Button to navigate to Create Customer page -->
+    <a class="btn btn-primary" asp-action="CreateCustomer">Create Customer</a>
+
+    <!-- Button to navigate to Upload Blob page -->
+    <a class="btn btn-primary" asp-action="UploadBlob">Upload Blob</a>
+
+    <!-- Button to navigate to Create Order page -->
+    <a class="btn btn-primary" asp-action="CreateOrder">Create Order</a>
+
 </div>
-<br />
-<br />
-<!--Code for the addition of a customer profile-->
-        <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
-<p>Add a customer profile to the storage account: </p>
-<form asp-action="AddCustomerProfile" method="post">
-    <input type="text" name="FirstName" placeholder="First Name" /><br />
-    <input type="text" name="LastName" placeholder="Last Name" /><br />
-    <input type="email" name="Email" placeholder="Email" /><br />
-    <input type="text" name="PhoneNumber" placeholder="Phone Number" /><br />
-    <button type="submit" style="background-color:aqua">Add Profile</button>
-</form>
-    </div>
-<br />
-<br />
-<!--Code for the processing of orders-->
-        <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
-<p>Process an order to the storage account: </p>
-<form asp-action="ProcessOrder" method="post">
-    <input type="text" name="orderId" placeholder="Order ID" /><br />
-        <button type="submit" style="background-color:aqua">Process Order</button>
-</form>
-</div>
-<br />
-<br />
-<!--Code for the uploading of contracts-->
-        <div style="border: 2px solid black; padding: 20px; margin:auto; display: inline-block; text-align: center; border-radius: 15px; background-color:beige;">
-<p>Upload a contract to the storage account: </p>
-            <form asp-action="UploadFileToAzure" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" /><br />
-        <button type="submit" style="background-color:aqua">Upload Contract</button>
-</form>
-</div>
-</div>
-</body>

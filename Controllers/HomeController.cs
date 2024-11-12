@@ -8,72 +8,118 @@ namespace ST10320806_Part1.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly BlobService _blobService;
-        private readonly TableService _tableService;
-        private readonly QueueService _queueService;
-        private readonly FileService _fileService;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly CustomerService _customerService; // Inject CustomerService
+        private readonly BlobService _blobService; // Inject BlobService
+        private readonly OrderService _orderService;
 
-        public HomeController(BlobService blobService, TableService tableService, QueueService queueService, FileService fileService)
+        public HomeController(IHttpClientFactory httpClientFactory, ILogger<HomeController> logger, IConfiguration configuration, CustomerService customerService, BlobService blobService, OrderService orderService)
         {
+            _httpClientFactory = httpClientFactory;
+            _logger = logger;
+            _configuration = configuration;
+            _customerService = customerService;
             _blobService = blobService;
-            _tableService = tableService;
-            _queueService = queueService;
-            _fileService = fileService;
+            _orderService = orderService;
         }
 
+        // Action for Index page
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult CreateCustomer()
         {
             return View(new CustomerProfile());
         }
 
-        // Adds Customer Profile to Azure Table
         [HttpPost]
-        public async Task<IActionResult> AddCustomerProfile(CustomerProfile profile)
+        public async Task<IActionResult> CreateCustomer(CustomerProfile profile)
         {
             if (ModelState.IsValid)
             {
-                await _tableService.AddEntityAsync(profile);
-                ViewBag.Message = "Customer profile added successfully!";
+                var isInserted = await _customerService.InsertCustomerAsync(profile);
+
+                if (isInserted)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    _logger.LogError("Failed to insert customer data into the database.");
+                    ModelState.AddModelError(string.Empty, "An error occurred while saving data.");
+                }
             }
-            return View("Index", profile);
+
+            return View(profile);
         }
 
-        // Uploads image to Azure Blob Storage
-        [HttpPost]
-        public async Task<IActionResult> UploadImage(IFormFile file)
+        public IActionResult UploadBlob()
         {
-            if (file != null && file.Length > 0)
-            {
-                using var stream = file.OpenReadStream();
-                await _blobService.UploadBlobAsync("product-images", file.FileName, stream);
-                ViewBag.Message = "Image uploaded successfully!";
-            }
-            return View("Index");
+            return View();
         }
 
-        // Sends a message to the Azure Queue
         [HttpPost]
-        public async Task<IActionResult> ProcessOrder(string orderId)
+        public async Task<IActionResult> UploadBlob(IFormFile imageFile)
         {
-            if (!string.IsNullOrEmpty(orderId))
+            if (imageFile != null)
             {
-                await _queueService.SendMessageAsync("order-processing", $"Processing order {orderId}");
-                ViewBag.Message = "Order processed successfully!";
+                using var memoryStream = new MemoryStream();
+                await imageFile.CopyToAsync(memoryStream);
+                var imageData = memoryStream.ToArray();
+
+                var isInserted = await _blobService.InsertBlobAsync(imageData);
+                if (isInserted)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    _logger.LogError("Failed to insert blob data into the database.");
+                    ModelState.AddModelError(string.Empty, "An error occurred while uploading the file.");
+                }
             }
-            return View("Index");
+            else
+            {
+                ModelState.AddModelError(string.Empty, "No file provided.");
+            }
+
+            return View();
         }
 
-        // Uploads file to Azure File Share
-        [HttpPost]
-        public async Task<IActionResult> UploadFileToAzure(IFormFile file)
+        public IActionResult CreateOrder()
         {
-            if (file != null && file.Length > 0)
+            return View(new OrderProfile());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder(OrderProfile order)
+        {
+            if (ModelState.IsValid)
             {
-                using var stream = file.OpenReadStream();
-                await _fileService.UploadFileAsync("fileshare", file.FileName, stream);
-                ViewBag.Message = "File uploaded successfully!";
+                try
+                {
+                    await _orderService.InsertOrderAsync(order);
+                    _logger.LogInformation("Order data inserted successfully.");
+                    return View(Index);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Failed to insert order data into the database: {ex.Message}");
+                    ModelState.AddModelError("", "There was an error processing your request. Please try again later.");
+                }
             }
-            return View("Index");
+            else
+            {
+                _logger.LogWarning("Invalid model state for order creation.");
+            }
+
+            // If there was an error or model state is invalid, return the same view with the order data and error message
+            return View(order);
         }
     }
 }
+

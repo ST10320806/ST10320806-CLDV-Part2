@@ -1,0 +1,12 @@
+﻿@model ST10320806_Part1.Models.OrderProfile
+
+<h2>Create Order</h2>
+
+<form asp-action="CreateOrder" method="post">
+    <div>
+        <label for="OrderNumber">Order Number</label>
+        <input type="text" id="OrderNumber" name="OrderNumber" value="@Model.OrderNumber" required />
+    </div>
+
+    <button type="submit">Submit</button>
+</form>
